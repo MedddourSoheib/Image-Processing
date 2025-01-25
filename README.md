@@ -6,7 +6,7 @@ Ce projet utilise la **Transformée de Fourier Rapide (FFT)** pour détecter et 
 - Importer des images bitmap contenant les formes recherchées et l’image cible.
 - Effectuer une **corrélation** dans l’espace de Fourier pour identifier les formes.
 - Optimiser les calculs grâce à la **FFT 2D**.
-- Afficher les résultats sous forme d’image ou de texte.
+- Afficher les résultats sous forme d’image.
 
 ## 🔬 Méthodologie
 1. **Chargement des images** (forme cible + image principale).
