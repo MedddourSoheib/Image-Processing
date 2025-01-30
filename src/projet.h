@@ -13,7 +13,7 @@ E3AFreeRGBAImage();   /* Deallocates the resources */
 
 
 //*****************************************************************************************************/
-/*                                               Conversion d'image                                */
+/*                         conversion d'une image en structure complexe                               */
 /*****************************************************************************************************/
 typedef struct {
     int weidth;
@@ -23,30 +23,20 @@ typedef struct {
 
 typedef struct 
 {
-    float Re;
-    float Im;
-} Cplx;
+    double Re;
+    double Im;
+
+} complex_t;
 
 
-
-typedef struct 
-{
-    int row ;
-    int width;
-    int col;
-
-} Pixel;
-
-
-
-
-
+complex_t convert_to_complex(bwimage_t *image); 
 
 //*****************************************************************************************************/
 /*                                                Transforme de fourier                               */
 /*****************************************************************************************************/
 
-float2complexe(); 
+void apply_fft_on_image(complex_t *image_complex, unsigned int width, unsigned int height, int isign) ;
+
 
 
 
@@ -58,7 +48,7 @@ float2complexe();
 /*                                                    Produit                                         */
 /*****************************************************************************************************/
 
-produit_image(); 
+//produit_image(); 
 
 
 
@@ -69,7 +59,7 @@ produit_image();
 /*****************************************************************************************************/
 
 
-complexe2float();
+//complexe2float();
 
 
 
@@ -82,7 +72,7 @@ complexe2float();
 //*****************************************************************************************************/
 /*                                                      Recuperer l'image                            */
 /*****************************************************************************************************/
-Sauvergarder();  
+//Sauvergarder();  
 
 
 

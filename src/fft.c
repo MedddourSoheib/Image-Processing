@@ -1,4 +1,6 @@
 #include <math.h>
+#include "projet.h"
+
 #define SWAP(a,b) tempr=(a);(a)=(b);(b)=tempr
 
 void four1(float data[], unsigned long nn, int isign)
@@ -47,3 +49,26 @@ void four1(float data[], unsigned long nn, int isign)
 	}
 }
 #undef SWAP
+
+void apply_fft_on_image(complex_t *image_complex, unsigned int width, unsigned int height, int isign) {
+    unsigned long n = width * height; // Nombre total de pixels (en complexes)
+    float *data = (float *)malloc(2 * n * sizeof(float)); // Tableau pour stocker les données réelles et imaginaires
+
+    // Remplir le tableau `data[]` avec les données de `image_complex`
+    for (unsigned int i = 0; i < n; i++) {
+        data[2 * i] = image_complex[i].Re;   // Partie réelle
+        data[2 * i + 1] = image_complex[i].Im; // Partie imaginaire
+    }
+
+    // Appliquer la FFT sur le tableau `data`
+    four1(data, n, isign);
+
+    // Remettre les résultats dans `image_complex`
+    for (unsigned int i = 0; i < n; i++) {
+        image_complex[i].Re = data[2 * i];     // Partie réelle après FFT
+        image_complex[i].Im = data[2 * i + 1]; // Partie imaginaire après FFT
+    }
+
+    // Libérer la mémoire allouée pour `data`
+    free(data);
+}
