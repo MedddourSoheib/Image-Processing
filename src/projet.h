@@ -15,11 +15,11 @@ E3AFreeRGBAImage();   /* Deallocates the resources */
 //*****************************************************************************************************/
 /*                         conversion d'une image en structure complexe                               */
 /*****************************************************************************************************/
-typedef struct {
+/*typedef struct {
     int weidth;
     int height;
     int *data;
-} k_image;
+ k_image; */
 
 typedef struct 
 {

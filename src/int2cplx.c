@@ -10,7 +10,7 @@ complex_t *convert_to_complex(bwimage_t *image) {
 
     if (!image_complex) {
         // Gestion des erreurs si l'allocation échoue
-        fprintf(stderr, "Memory allocation failed\n");
+        fputs("Memory allocation failed\n", stderr);
         return NULL;
     }
 

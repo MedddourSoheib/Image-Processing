@@ -145,7 +145,7 @@ error_e E3AFreeImage(bwimage_t *image)
         free(image->data);
     free(image);
     return E3A_OK;
-}
+}   
 
 error_e E3ALoadImage(const char *infile_path, bwimage_t *image){
     int rv=E3A_OK;
