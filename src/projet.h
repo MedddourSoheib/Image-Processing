@@ -15,11 +15,11 @@ E3AFreeRGBAImage();   /* Deallocates the resources */
 //*****************************************************************************************************/
 /*                         conversion d'une image en structure complexe                               */
 /*****************************************************************************************************/
-/*typedef struct {
-    int weidth;
+typedef struct {
+    int width;
     int height;
-    int *data;
- k_image; */
+    complex_t *data;
+} C_image; 
 
 typedef struct 
 {
@@ -28,8 +28,16 @@ typedef struct
 
 } complex_t;
 
+typedef struct
+  {
+    unsigned int width;
+    unsigned int height;
+    unsigned char **data; /* Access intensities as image.data[row][col] */
+    unsigned char *rawdata;
+  } bwimage_t;
 
-complex_t convert_to_complex(bwimage_t *image); 
+
+complex_t convert_to_complex(bwimage_t *image);  
 
 //*****************************************************************************************************/
 /*                                                Transforme de fourier                               */

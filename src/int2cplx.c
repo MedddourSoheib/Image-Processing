@@ -4,25 +4,32 @@
 #include <stdio.h>
 
 
-complex_t *convert_to_complex(bwimage_t *image) {
-    // Allouer un tableau pour stocker les valeurs complexes
-    complex_t *image_complex = (complex_t *)malloc(image->width * image->height * sizeof(complex_t));
+// Fonction pour convertir une image réelle en image complexe
+C_image int2cplx(bwimage_t int_image) {
+    // Créer une image complexe
+    C_image complex_image;
+    complex_image.width = int_image.width;
+    complex_image.height = int_image.height;
 
-    if (!image_complex) {
-        // Gestion des erreurs si l'allocation échoue
-        fputs("Memory allocation failed\n", stderr);
-        return NULL;
+    // Allouer de la mémoire pour l'image complexe
+    complex_image.data = (complex_t *)malloc(int_image.width * int_image.height * sizeof(complex_t));
+    if (complex_image.data == NULL) {
+        fprintf(stderr, "Memory allocation failed for complex image\n");
+        exit(1);  // Quitter en cas d'échec d'allocation mémoire
     }
 
-    // Remplir l'image complexe avec les valeurs de l'image en niveaux de gris
-    for (unsigned int y = 0; y < image->height; y++) {
-        for (unsigned int x = 0; x < image->width; x++) {
-            unsigned int idx = y * image->width + x;
-            image_complex[idx].Re = image->data[y][x]; // Partie réelle : intensité du pixel
-            image_complex[idx].Im = 0.0;               // Partie imaginaire : initialisée à zéro
+    // Remplir l'image complexe avec les valeurs de l'image réelle
+    for (unsigned int y = 0; y < int_image.height; y++) {
+        for (unsigned int x = 0; x < int_image.width; x++) {
+            unsigned int idx = y * int_image.width + x;
+
+            // Partie réelle : correspond à l'intensité du pixel dans l'image réelle
+            complex_image.data[idx].Re = (float)int_image.data[y][x];
+
+            // Partie imaginaire : initialisée à 0
+            complex_image.data[idx].Im = 0.0f;
         }
     }
 
-    return image_complex; // Retourner le tableau de données complexes
+    return complex_image;
 }
-

@@ -50,25 +50,24 @@ void four1(float data[], unsigned long nn, int isign)
 }
 #undef SWAP
 
-void apply_fft_on_image(complex_t *image_complex, unsigned int width, unsigned int height, int isign) {
-    unsigned long n = width * height; // Nombre total de pixels (en complexes)
-    float *data = (float *)malloc(2 * n * sizeof(float)); // Tableau pour stocker les données réelles et imaginaires
+void apply_fft_on_image(C_image *complex_image, int isign) {
+    unsigned long n = complex_image->width * complex_image->height;
+    float *data = (float *)malloc(2 * n * sizeof(float));
 
-    // Remplir le tableau `data[]` avec les données de `image_complex`
+    // Remplir le tableau `data[]` avec les données complexes
     for (unsigned int i = 0; i < n; i++) {
-        data[2 * i] = image_complex[i].Re;   // Partie réelle
-        data[2 * i + 1] = image_complex[i].Im; // Partie imaginaire
+        data[2 * i] = complex_image->data[i].Re;
+        data[2 * i + 1] = complex_image->data[i].Im;
     }
 
-    // Appliquer la FFT sur le tableau `data`
+    // Appliquer la FFT sur les données
     four1(data, n, isign);
 
-    // Remettre les résultats dans `image_complex`
+    // Remettre les résultats dans l'image complexe
     for (unsigned int i = 0; i < n; i++) {
-        image_complex[i].Re = data[2 * i];     // Partie réelle après FFT
-        image_complex[i].Im = data[2 * i + 1]; // Partie imaginaire après FFT
+        complex_image->data[i].Re = data[2 * i];
+        complex_image->data[i].Im = data[2 * i + 1];
     }
 
-    // Libérer la mémoire allouée pour `data`
     free(data);
 }
