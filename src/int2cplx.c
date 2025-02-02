@@ -5,26 +5,26 @@
 
 
 // Fonction pour convertir une image réelle en image complexe
-C_image int2cplx(bwimage_t int_image) {
+C_image int2cplx(bwimage_t real_image) {
     // Créer une image complexe
     C_image complex_image;
-    complex_image.width = int_image.width;
-    complex_image.height = int_image.height;
+    complex_image.width = real_image.width;
+    complex_image.height = real_image.height;
 
     // Allouer de la mémoire pour l'image complexe
-    complex_image.data = (complex_t *)malloc(int_image.width * int_image.height * sizeof(complex_t));
+    complex_image.data = (cplx *)malloc(real_image.width * real_image.height * sizeof(cplx));
     if (complex_image.data == NULL) {
         fprintf(stderr, "Memory allocation failed for complex image\n");
         exit(1);  // Quitter en cas d'échec d'allocation mémoire
     }
 
     // Remplir l'image complexe avec les valeurs de l'image réelle
-    for (unsigned int y = 0; y < int_image.height; y++) {
-        for (unsigned int x = 0; x < int_image.width; x++) {
-            unsigned int idx = y * int_image.width + x;
+    for (unsigned int y = 0; y < real_image.height; y++) {
+        for (unsigned int x = 0; x < real_image.width; x++) {
+            unsigned int idx = y * real_image.width + x;
 
             // Partie réelle : correspond à l'intensité du pixel dans l'image réelle
-            complex_image.data[idx].Re = (float)int_image.data[y][x];
+            complex_image.data[idx].Re = (float)real_image.data[y][x];
 
             // Partie imaginaire : initialisée à 0
             complex_image.data[idx].Im = 0.0f;

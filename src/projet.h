@@ -11,14 +11,13 @@ E3ADumpRGBAImage();   /* Dumps the image in the new tiff file */
 E3AFreeRGBAImage();   /* Deallocates the resources */
 
 
-
 //*****************************************************************************************************/
 /*                         conversion d'une image en structure complexe                               */
 /*****************************************************************************************************/
 typedef struct {
     int width;
     int height;
-    complex_t *data;
+    cplx *data;
 } C_image; 
 
 typedef struct 
@@ -26,7 +25,7 @@ typedef struct
     double Re;
     double Im;
 
-} complex_t;
+} cplx;
 
 typedef struct
   {
@@ -37,18 +36,13 @@ typedef struct
   } bwimage_t;
 
 
-complex_t convert_to_complex(bwimage_t *image);  
+C_image int2cplx(bwimage_t real_image); 
 
 //*****************************************************************************************************/
 /*                                                Transforme de fourier                               */
 /*****************************************************************************************************/
 
-void apply_fft_on_image(complex_t *image_complex, unsigned int width, unsigned int height, int isign) ;
-
-
-
-
-
+void apply_fft_on_image(C_image *complex_image, int isign);
 
 
 
@@ -67,7 +61,13 @@ void apply_fft_on_image(complex_t *image_complex, unsigned int width, unsigned i
 /*****************************************************************************************************/
 
 
-//complexe2float();
+
+//*****************************************************************************************************/
+/*                                                      Complexe to Real                             */
+/*****************************************************************************************************/
+
+
+bwimage_t cplx2int (C_image complex_image);
 
 
 
