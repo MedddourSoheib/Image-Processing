@@ -20,10 +20,10 @@ bwimage_t cplx2int (C_image complex_image){
         for (unsigned int x = 0; x < real_image.width; x++) {
             unsigned int idx = y * real_image.width + x;
 
-        float magnitude =sqrt(complex_image.data[idx].Re * complex_image.data[idx].Re + complex_image.data[idx].Im * complex_image.data[idx].Im );
+        float module =sqrt(complex_image.data[idx].Re * complex_image.data[idx].Re + complex_image.data[idx].Im * complex_image.data[idx].Im );
 
     // Normalisation de la magnitude (mettre dans l'ntervalle [0, 255]
-    unsigned char pixel_value =(unsigned char)(fmin(magnitude, 255.0f));
+    unsigned char pixel_value =(unsigned char)(fmin(module, 255.0f));
 
     // Stocker la valeur dans l'image réelle
 

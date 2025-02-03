@@ -50,7 +50,7 @@ void apply_fft_on_image(C_image *complex_image, int isign);
 /*                                                    Produit                                         */
 /*****************************************************************************************************/
 
-//produit_image(); 
+// C_image produit_images(C_image 1, C_image 2);
 
 
 
