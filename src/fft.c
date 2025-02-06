@@ -50,24 +50,45 @@ void four1(float data[], unsigned long nn, int isign)
 }
 #undef SWAP
 
-void apply_fft_on_image(C_image *complex_image, int isign) {
-    unsigned long n = complex_image->width * complex_image->height;
-    float *data = (float *)malloc(2 * n * sizeof(float));
+void apply_fft_2d(C_image *complex_image, int isign) {
+    unsigned int width = complex_image->width;
+    unsigned int height = complex_image->height;
+    float *data = (float *)malloc(2 * width * sizeof(float));
 
-    // Remplir le tableau `data[]` avec les données complexes
-    for (unsigned int i = 0; i < n; i++) {
-        data[2 * i] = complex_image->data[i].Re;
-        data[2 * i + 1] = complex_image->data[i].Im;
+    // FFT sur chaque ligne
+    for (unsigned int y = 0; y < height; y++) {
+        for (unsigned int x = 0; x < width; x++) {
+            data[2 * x] = complex_image->data[y * width + x].Re;
+            data[2 * x + 1] = complex_image->data[y * width + x].Im;
+        }
+
+        // FFT 1D sur la ligne
+        four1(data - 1, width, isign);
+
+        for (unsigned int x = 0; x < width; x++) {
+            complex_image->data[y * width + x].Re = data[2 * x];
+            complex_image->data[y * width + x].Im = data[2 * x + 1];
+        }
     }
 
-    // Appliquer la FFT sur les données
-    four1(data, n, isign);
+    // FFT sur chaque colonne
+    float *colData = (float *)malloc(2 * height * sizeof(float));
 
-    // Remettre les résultats dans l'image complexe
-    for (unsigned int i = 0; i < n; i++) {
-        complex_image->data[i].Re = data[2 * i];
-        complex_image->data[i].Im = data[2 * i + 1];
+    for (unsigned int x = 0; x < width; x++) {
+        for (unsigned int y = 0; y < height; y++) {
+            colData[2 * y] = complex_image->data[y * width + x].Re;
+            colData[2 * y + 1] = complex_image->data[y * width + x].Im;
+        }
+
+        // FFT 1D sur la colonne
+        four1(colData - 1, height, isign);
+
+        for (unsigned int y = 0; y < height; y++) {
+            complex_image->data[y * width + x].Re = colData[2 * y];
+            complex_image->data[y * width + x].Im = colData[2 * y + 1];
+        }
     }
 
     free(data);
+    free(colData);
 }

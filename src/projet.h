@@ -14,18 +14,20 @@ E3AFreeRGBAImage();   /* Deallocates the resources */
 //*****************************************************************************************************/
 /*                         conversion d'une image en structure complexe                               */
 /*****************************************************************************************************/
-typedef struct {
-    int width;
-    int height;
-    cplx *data;
-} C_image; 
-
 typedef struct 
 {
     double Re;
     double Im;
 
 } cplx;
+
+typedef struct {
+    int width;
+    int height;
+    cplx *data;
+} C_image; 
+
+
 
 typedef struct
   {
@@ -35,14 +37,13 @@ typedef struct
     unsigned char *rawdata;
   } bwimage_t;
 
-
-C_image int2cplx(bwimage_t real_image); 
+C_image int2cplx(bwimage_t *real_image);
 
 //*****************************************************************************************************/
 /*                                                Transforme de fourier                               */
 /*****************************************************************************************************/
 
-void apply_fft_on_image(C_image *complex_image, int isign);
+void apply_fft_2d(C_image *complex_image, int isign);
 
 
 
@@ -67,7 +68,9 @@ void apply_fft_on_image(C_image *complex_image, int isign);
 /*****************************************************************************************************/
 
 
-bwimage_t cplx2int (C_image complex_image);
+
+//bwimage_t cplx2int(C_image complex_image);
+void cplx2int(C_image complex_image, bwimage_t *real_image);
 
 
 
