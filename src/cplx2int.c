@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>  // Ajout pour malloc et exit
 #include "projet.h"
-
 
 bwimage_t cplx2int(C_image *complex_image) {
     if (!complex_image || !complex_image->cdata) {
@@ -18,6 +18,19 @@ bwimage_t cplx2int(C_image *complex_image) {
     if (!image.rawdata) {
         fprintf(stderr, "Erreur d'allocation mémoire pour rawdata\n");
         exit(1);
+    }
+
+    // Allouer la mémoire pour data (tableau 2D)
+    image.data = (unsigned char **)malloc(image.height * sizeof(unsigned char *));
+    if (!image.data) {
+        free(image.rawdata);
+        fprintf(stderr, "Erreur d'allocation mémoire pour data\n");
+        exit(1);
+    }
+
+    // Assignation des pointeurs pour accéder aux pixels sous forme de tableau 2D
+    for (unsigned int y = 0; y < image.height; y++) {
+        image.data[y] = image.rawdata + y * image.width * sizeof(unsigned char);
     }
 
     // 1️⃣ Trouver les valeurs min et max
@@ -43,8 +56,6 @@ bwimage_t cplx2int(C_image *complex_image) {
 
         image.rawdata[i] = (unsigned char)Xv; // Affecter à rawdata
     }
-
-    
 
     return image;
 }
