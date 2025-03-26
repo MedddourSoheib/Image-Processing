@@ -2,34 +2,50 @@
 #include "pngwrap.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
-// Fonction pour convertir une image réelle en image complexe
-C_image int2cplx(bwimage_t int_image) {
-    // Créer une image complexe
-    C_image complex_image;
-    complex_image.width = int_image.width;
-    complex_image.height = int_image.height;
+C_image * int2cplx(bwimage_t *real_image) {
 
-    // Allouer de la mémoire pour l'image complexe
-    complex_image.data = (complex_t *)malloc(int_image.width * int_image.height * sizeof(complex_t));
-    if (complex_image.data == NULL) {
-        fprintf(stderr, "Memory allocation failed for complex image\n");
-        exit(1);  // Quitter en cas d'échec d'allocation mémoire
+    C_image *complex_image = (C_image *)malloc(sizeof(C_image));
+    complex_image->width = real_image->width;
+    complex_image->height = real_image->height;
+
+    // Allocation de mémoire pour l'real_image complexe
+    
+    complex_image->cdata = (cplx *)malloc(real_image->width * real_image->height * sizeof(cplx));
+    
+    if (!complex_image->cdata) {
+        fprintf(stderr, "Erreur d'allocation mémoire\n");
+        exit(1);
     }
 
-    // Remplir l'image complexe avec les valeurs de l'image réelle
-    for (unsigned int y = 0; y < int_image.height; y++) {
-        for (unsigned int x = 0; x < int_image.width; x++) {
-            unsigned int idx = y * int_image.width + x;
+    // Remplir l'real_image complexe
+    // l ligne et c colonne
+    for (unsigned int l = 0; l < real_image->height; l++) {
+        for (unsigned int c = 0; c < real_image->width; c++) {
+            unsigned int idx = l * real_image->width + c;
 
-            // Partie réelle : correspond à l'intensité du pixel dans l'image réelle
-            complex_image.data[idx].Re = (float)int_image.data[y][x];
+            // Partie réelle : pixel de l'real_image réelle
+            complex_image->cdata[idx].Re = (double)real_image->rawdata[idx];
 
-            // Partie imaginaire : initialisée à 0
-            complex_image.data[idx].Im = 0.0f;
+            // Partie imaginaire : 0
+            complex_image->cdata[idx].Im = 0.0;
         }
     }
 
     return complex_image;
 }
+
+    
+
+
+
+
+
+
+
+
+
+
+    

@@ -1,112 +1,56 @@
-#if !defined(__PROJET__H__)
-#define __PROJET__H__
+#ifndef PROJECT_H
+#define PROJECT_H
 
-//*****************************************************************************************************/
-/*                                               Lecture d'image                                      */
-/*****************************************************************************************************/
-
-E3ACreateRGBAImage(); /* Creates the structure on the heap and initialize it to the defaults */
-E3ALoadRGBAImage();   /* Loads image from the open tiff file. Data are allocated on the heap. */
-E3ADumpRGBAImage();   /* Dumps the image in the new tiff file */
-E3AFreeRGBAImage();   /* Deallocates the resources */
-
+#include "pngwrap.h"
 
 
 //*****************************************************************************************************/
-/*                         conversion d'une image en structure complexe                               */
+/*                            Définition de la structure pour complexe                                */
 /*****************************************************************************************************/
 typedef struct {
-    int width;
-    int height;
-    complex_t *data;
-} C_image; 
-
-typedef struct 
-{
-    double Re;
-    double Im;
-
-} complex_t;
-
-typedef struct
-  {
-    unsigned int width;
-    unsigned int height;
-    unsigned char **data; /* Access intensities as image.data[row][col] */
-    unsigned char *rawdata;
-  } bwimage_t;
-
-
-complex_t convert_to_complex(bwimage_t *image);  
+    float Re;   // Partie réelle
+    float Im;   // Partie imaginaire
+} cplx;
 
 //*****************************************************************************************************/
-/*                                                Transforme de fourier                               */
-/*****************************************************************************************************/
-
-void apply_fft_on_image(complex_t *image_complex, unsigned int width, unsigned int height, int isign) ;
-
-
-
-
-
-
+/*                            Définition de la structure pour l'image complexe                        */
+/*****************************************************************************************************/ 
+typedef struct {
+    int width;   // Largeur de l'image
+    int height;  // Hauteur de l'image
+    cplx *cdata; // Données de l'image complexe
+} C_image;
 
 
 //*****************************************************************************************************/
-/*                                                    Produit                                         */
+/*                           Fonction de conversion de l'image réelle vers l'image complexe          */
 /*****************************************************************************************************/
-
-//produit_image(); 
-
-
-
+C_image * int2cplx(bwimage_t *int_image);
 
 
 //*****************************************************************************************************/
-/*                                                      Transformer Inverser                          */
-/*****************************************************************************************************/
-
-
-//complexe2float();
-
-
-
-
-
-
-
+/*                            Fonction FFT (Transformation de Fourier) sur l'image complexe          */
+/*****************************************************************************************************/ 
+void fourn(float data[], unsigned long nn[], int ndim, int isign);
 
 
 //*****************************************************************************************************/
-/*                                                      Recuperer l'image                            */
+/*                            Fonction pour appliquer la FFT à une image complex                     */
 /*****************************************************************************************************/
-//Sauvergarder();  
+void apply_fft(C_image *complex_image,int isign);
+
+
+//*****************************************************************************************************/
+/*                                     Produit de convolution                                        */
+/*****************************************************************************************************/
+C_image * produit_images(C_image image1, C_image image2);
+
+
+//*****************************************************************************************************/
+/*           Fonction de conversion de l'image complexe vers l'image réelle                           */
+/*****************************************************************************************************/
+bwimage_t * cplx2int(C_image *complex_image);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                        
-
-
-
-
-
-
-
-
-
-
-
-#endif 
+#endif // PROJECT_H
