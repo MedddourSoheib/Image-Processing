@@ -48,7 +48,7 @@ C_image * produit_images(C_image image1, C_image image2, float sigma) {
             float Fx = (x < max_width / 2) ? 2*(float)x / max_width : 2*(float)(x - max_width)/max_width;
             float Fy = (y < max_height / 2) ? 2*(float)y /max_height : 2*(float)(y - max_height)/max_height;
             float coeff = (Fx * Fx) + (Fy * Fy);
-            float e =exp ( - (coeff / (sigma * sigma)));
+            float e =exp ( - (coeff / (2*sigma * sigma)));
             result->cdata[index].Re = e*coeff * (Re1 * Re2 + Im1 * Im2);
             result->cdata[index].Im = e*coeff * (-Re1 * Im2 + Im1 * Re2);
         }
