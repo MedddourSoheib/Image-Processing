@@ -27,7 +27,7 @@ int main() {
 
     // Charger l'image à partir d'un fichier
     printf("Chargement de l'image...\n");
-    err = E3ALoadImage("../image9.png", image2);
+    err = E3ALoadImage("../image3.png", image2);
     if (err != E3A_OK) {
         fprintf(stderr, "Erreur de chargement de l'image : %d\n", err);
         return EXIT_FAILURE;
@@ -42,7 +42,7 @@ int main() {
    apply_fft(imagec2,1);
 
 // Produit de convolution
-    image_corr_c = produit_images(*imagec1,*imagec2);
+    image_corr_c = produit_images(*imagec1,*imagec2,0.9);
     if (image_corr_c == NULL) {
         fprintf(stderr, "Erreur lors du produit de convolution\n");
         free(imagec1);
@@ -63,7 +63,7 @@ if (test_image == NULL) {
 
 
     // Sauvegarde de l'image résultante
-    if (E3ADumpImage("../test2-9v1.png", test_image) != E3A_OK) {
+    if (E3ADumpImage("../test2-3v3-0.9.png", test_image) != E3A_OK) {
         fprintf(stderr, "Erreur lors de la sauvegarde de l'image\n");
     }
 
